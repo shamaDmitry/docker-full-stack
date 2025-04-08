@@ -6,6 +6,8 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
+  console.log("API URL:", import.meta.env.VITE_API_URL);
+
   return (
     <>
       <div>
@@ -16,7 +18,9 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+
       <h1>Vite + React</h1>
+
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
