@@ -1,0 +1,36 @@
+services:
+  mongo-prod:
+    image: mongo:latest
+    container_name: mongo-prod
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped # Ensure MongoDB restarts on system reboot
+
+  backend-prod:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "5000:5000"
+    env_file: ./backend/.env.prod
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mongo-prod
+    restart: unless-stopped
+
+  frontend-prod:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    env_file: ./frontend/.env.prod
+    depends_on:
+     - backend-prod
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
