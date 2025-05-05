@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest-4cores-8gb # Runner for building the image
+    runs-on: ubuntu-latest # Runner for building the image
 
     steps:
       - name: Checkout code
