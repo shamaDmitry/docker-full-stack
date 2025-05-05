@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Runner for building the image
+    runs-on: ubuntu-latest-4cores-8gb # Runner for building the image
 
     steps:
       - name: Checkout code
@@ -36,6 +36,9 @@ jobs:
       - name: List files in repository
         run: ls -l
 
+      - name: Create Buildx builder
+        run: docker buildx create --use
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -44,6 +47,9 @@ jobs:
           push: true # Push to the registry after build
           # tags: ghcr.io/${{ github.repository_owner }}/docker-full-stack:latest # Define the tag format for GHCR
           tags: ghcr.io/shama/docker-full-stack:latest # Define the tag format for GHCR
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1 # Recommended for faster builds
+          progress: plain # Add this for more detailed output
 
       - name: Get npm install logs
         if: failure() # Only run this step if the previous step (build and push) fails
