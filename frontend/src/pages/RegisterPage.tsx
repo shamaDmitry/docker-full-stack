@@ -9,14 +9,16 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { NavLink } from "react-router";
+import { registerUser } from "../services/api/auth";
 
-export const HomePage = () => {
+export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -34,23 +36,24 @@ export const HomePage = () => {
 
   const notify = () => toast("Here is your toast.");
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMessage(data.message);
+  const handleSubmit = async () => {
+    try {
+      const res = await registerUser({
+        email,
+        password,
       });
 
-    return () => {};
-  }, []);
+      console.log("res", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Grid className="">
-      <NavLink to="register">register</NavLink>
+      <NavLink to="/">login</NavLink>
 
       <Paper elevation={5} sx={{ p: 2, mb: 2 }}>
-        <div>{message}</div>
-
         <Typography
           sx={{
             color: "text.primary",
@@ -60,13 +63,17 @@ export const HomePage = () => {
           }}
           variant="h1"
         >
-          Login
+          Register
         </Typography>
 
         <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
-          <InputLabel htmlFor="login">Login</InputLabel>
+          <InputLabel htmlFor="email">Email</InputLabel>
 
-          <Input id="login" />
+          <Input
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </FormControl>
 
         <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
@@ -75,6 +82,8 @@ export const HomePage = () => {
           </InputLabel>
 
           <Input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type={showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -93,7 +102,10 @@ export const HomePage = () => {
           />
         </FormControl>
 
-        <Button variant="contained">Login</Button>
+        <Button variant="contained" onClick={() => handleSubmit()}>
+          Login
+        </Button>
+
         <Button onClick={notify}>Make me a toast</Button>
       </Paper>
     </Grid>
