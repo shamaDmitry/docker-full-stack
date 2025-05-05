@@ -45,6 +45,13 @@ jobs:
           # tags: ghcr.io/${{ github.repository_owner }}/docker-full-stack:latest # Define the tag format for GHCR
           tags: ghcr.io/shama/docker-full-stack:latest # Define the tag format for GHCR
 
+      - name: Get npm install logs
+        if: failure() # Only run this step if the previous step (build and push) fails
+        run: |
+          IMAGE_ID=$(docker images --filter "reference=ghcr.io/${{ github.repository_owner }}/docker-full-stack:latest" --format "{{.ID}}")
+          docker cp $IMAGE_ID:/npm_install.log npm_install.log
+          cat npm_install.log  # Print the logs to the workflow output
+
       - name: Deploy backend (optional step for remote deployment)
         run: |
           echo "Deploy backend here using SSH, AWS ECS, or another provider"
