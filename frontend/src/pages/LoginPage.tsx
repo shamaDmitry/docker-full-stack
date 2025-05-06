@@ -10,14 +10,15 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { registerUser } from "@/services/api/auth";
+import { loginUser } from "../services/api/auth";
+import toast from "react-hot-toast";
 
-export const RegisterPage = () => {
+export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [userName, setUserName] = useState("");
+
+  const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,22 +38,28 @@ export const RegisterPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await registerUser({
+      const res = await loginUser({
         email,
         password,
-        userName,
       });
 
-      console.log("res", res);
       if (res) {
         toast.success(res.message);
       }
     } catch (error) {
-      console.log(error);
-
-      toast.error(error.message);
+      console.log("error", error);
     }
   };
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/`)
+      .then((res) => res.json())
+      .then((data) => {
+        setMessage(data.message);
+      });
+
+    return () => {};
+  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -67,7 +74,9 @@ export const RegisterPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <Button href="/">login</Button>
+        <pre>{message}</pre>
+
+        <Button href="/register">Register</Button>
 
         <Paper
           elevation={5}
@@ -86,18 +95,8 @@ export const RegisterPage = () => {
             }}
             variant="h1"
           >
-            Register
+            Login
           </Typography>
-
-          <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
-            <InputLabel htmlFor="username">Username</InputLabel>
-
-            <Input
-              id="username"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </FormControl>
 
           <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
             <InputLabel htmlFor="email">Email</InputLabel>
