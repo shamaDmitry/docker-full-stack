@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { loginUser } from "../services/api/auth";
 import toast from "react-hot-toast";
+import { Link } from "react-router";
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -74,9 +75,9 @@ export const LoginPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <pre>{message}</pre>
-
-        <Button href="/register">Register</Button>
+        <Button variant="contained">
+          <Link to="/register">Register</Link>
+        </Button>
 
         <Paper
           elevation={5}
@@ -86,6 +87,8 @@ export const LoginPage = () => {
             width: "100%",
           }}
         >
+          <pre>{message}</pre>
+
           <Typography
             sx={{
               color: "text.primary",

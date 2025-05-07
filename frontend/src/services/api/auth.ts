@@ -76,3 +76,7 @@ export async function loginUser(
     throw error;
   }
 }
+
+export async function logOutUser() {
+  localStorage.clear();
+}
