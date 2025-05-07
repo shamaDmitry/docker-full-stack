@@ -14,10 +14,13 @@ import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { loginUser } from "../services/api/auth";
 import toast from "react-hot-toast";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export const LoginPage = () => {
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+
+  console.log("location", location);
 
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -49,6 +52,7 @@ export const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
+      toast.error(error.message);
     }
   };
 
@@ -75,10 +79,6 @@ export const LoginPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <Button variant="contained">
-          <Link to="/register">Register</Link>
-        </Button>
-
         <Paper
           elevation={5}
           sx={{

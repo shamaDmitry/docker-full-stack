@@ -43,7 +43,6 @@ export const RegisterPage = () => {
         userName,
       });
 
-      console.log("res", res);
       if (res) {
         toast.success(res.message);
       }
@@ -67,8 +66,6 @@ export const RegisterPage = () => {
           alignItems: "flex-end",
         }}
       >
-        <Button href="/">login</Button>
-
         <Paper
           elevation={5}
           sx={{

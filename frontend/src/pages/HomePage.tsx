@@ -1,8 +1,28 @@
-import { Box, Button, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import { NavLink } from "react-router";
 
 const HomePage = () => {
   return (
     <Container maxWidth="sm">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+        }}
+      >
+        <h1>Home Page</h1>
+
+        <Box
+          component="nav"
+          sx={{ display: "flex", alignItems: "center", gap: 2, m: 2 }}
+        >
+          <NavLink to={"login"}>Login</NavLink>
+          <NavLink to={"register"}>Register</NavLink>
+        </Box>
+      </Box>
+
       <Box
         component="section"
         sx={{
@@ -14,15 +34,6 @@ const HomePage = () => {
           alignItems: "flex-end",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-          <Button variant="contained" href="/login">
-            Login
-          </Button>
-          <Button variant="contained" href="/register">
-            Register
-          </Button>
-        </Box>
-
         <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo et
           inventore dolorum assumenda ad rem earum necessitatibus sint iure,
