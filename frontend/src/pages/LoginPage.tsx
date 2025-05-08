@@ -14,17 +14,56 @@ import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { loginUser } from "../services/api/auth";
 import toast from "react-hot-toast";
-import { Link, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { apiRequest } from "../services/api";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const { email, password } = data;
+
+    try {
+      const res = await loginUser({
+        email,
+        password,
+      });
+
+      console.log("res", res);
+
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      navigate("/dashboard");
+
+      if (res) {
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+
+      toast.error(error.message);
+    }
+  };
+
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
 
-  console.log("location", location);
+  console.log("errors", errors);
 
   const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -40,28 +79,10 @@ export const LoginPage = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = async () => {
-    try {
-      const res = await loginUser({
-        email,
-        password,
-      });
-
-      if (res) {
-        toast.success(res.message);
-      }
-    } catch (error) {
-      console.log("error", error);
-      toast.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMessage(data.message);
-      });
+    apiRequest(`/api/test`).then((data) => {
+      console.log("data", data);
+    });
 
     return () => {};
   }, []);
@@ -101,53 +122,69 @@ export const LoginPage = () => {
             Login
           </Typography>
 
-          <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
-            <InputLabel htmlFor="email">Email</InputLabel>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
+              <InputLabel htmlFor="email">Email</InputLabel>
 
-            <Input
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
+              <Input
+                error={!!errors.email}
+                id="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+              />
 
-          <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
+              {errors.email && (
+                <Typography variant="body2" color="error">
+                  {errors.email.message}
+                </Typography>
+              )}
+            </FormControl>
 
-            <Input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+            <FormControl sx={{ my: 1, width: "100%" }} variant="standard">
+              <InputLabel htmlFor="password">Password</InputLabel>
 
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              sx={{ mt: 2 }}
-              variant="contained"
-              onClick={() => handleSubmit()}
-            >
-              Login
-            </Button>
-          </Box>
+              <Input
+                id="password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword
+                          ? "hide the password"
+                          : "display the password"
+                      }
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+
+              {errors.password && (
+                <Typography variant="body2" color="error">
+                  {errors.password.message}
+                </Typography>
+              )}
+            </FormControl>
+
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button sx={{ mt: 2 }} variant="contained" type="submit">
+                Login
+              </Button>
+            </Box>
+          </form>
         </Paper>
       </Box>
     </Container>

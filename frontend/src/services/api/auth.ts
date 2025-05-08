@@ -20,6 +20,7 @@ export interface RegisterResponse {
 }
 
 export interface loginResponse {
+  message: string;
   token: string;
   user?: {
     id: string;

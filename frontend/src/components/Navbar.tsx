@@ -1,15 +1,19 @@
 import { Box, Button } from "@mui/material";
-import { NavLink } from "react-router";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-      <Button variant="contained">
-        <NavLink to="/login">Login</NavLink>
+    <Box
+      sx={{ display: "flex", justifyContent: "flex-end", gap: 2, px: 2, mb: 2 }}
+    >
+      <Button variant="contained" onClick={() => navigate("/register")}>
+        Register
       </Button>
 
-      <Button variant="contained">
-        <NavLink to="/register">Register</NavLink>
+      <Button variant="contained" onClick={() => navigate("/login")}>
+        Login
       </Button>
     </Box>
   );

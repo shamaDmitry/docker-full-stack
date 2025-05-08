@@ -6,8 +6,6 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { user } = useAuthStore();
   const location = useLocation();
 
-  console.log("user", user);
-
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} />;
   }

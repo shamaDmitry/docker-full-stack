@@ -21,13 +21,12 @@ export async function apiRequest<T>(
     const response = await fetch(url, {
       ...options,
       headers: requestHeaders,
-      credentials: "include", // Include cookies in the request
     });
 
     if (response.status === 401) {
       await logOutUser();
 
-      window.location.href = "/login";
+      window.location.href = "/";
 
       throw new Error("Unauthorized: Please log in again");
     }
