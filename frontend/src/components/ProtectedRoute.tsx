@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
-import { useAuthStore } from "../store/useAuthStore";
 
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { user } = useAuthStore();
+  const user = localStorage.getItem("user");
   const location = useLocation();
 
   if (!user) {

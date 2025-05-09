@@ -16,7 +16,7 @@ import { loginUser } from "../services/api/auth";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { apiRequest } from "../services/api";
+import { useAuthStore } from "../store/useAuthStore";
 
 type Inputs = {
   email: string;
@@ -25,6 +25,7 @@ type Inputs = {
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
   const {
     register,
@@ -41,15 +42,16 @@ export const LoginPage = () => {
         password,
       });
 
-      console.log("res", res);
-
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(res.user));
-
-      navigate("/dashboard");
-
       if (res) {
         toast.success(res.message);
+
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+        setUser(res.user);
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       }
     } catch (error) {
       console.log("error", error);
@@ -59,11 +61,10 @@ export const LoginPage = () => {
   };
 
   const location = useLocation();
+
   const [showPassword, setShowPassword] = useState(false);
 
   console.log("errors", errors);
-
-  const [message, setMessage] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -78,14 +79,6 @@ export const LoginPage = () => {
   ) => {
     event.preventDefault();
   };
-
-  useEffect(() => {
-    apiRequest(`/api/test`).then((data) => {
-      console.log("data", data);
-    });
-
-    return () => {};
-  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -108,8 +101,6 @@ export const LoginPage = () => {
             width: "100%",
           }}
         >
-          <pre>{message}</pre>
-
           <Typography
             sx={{
               color: "text.primary",

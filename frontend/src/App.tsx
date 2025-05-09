@@ -10,7 +10,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import DashboardPage from "./pages/protected/DashboardPage";
 
 function App() {
-  const { user } = useAuthStore();
+  const user = localStorage.getItem("user");
 
   return (
     <div className="h-screen">

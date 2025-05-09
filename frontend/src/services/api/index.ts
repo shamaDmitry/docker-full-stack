@@ -26,7 +26,7 @@ export async function apiRequest<T>(
     if (response.status === 401) {
       await logOutUser();
 
-      window.location.href = "/";
+      window.location.href = "/login";
 
       throw new Error("Unauthorized: Please log in again");
     }

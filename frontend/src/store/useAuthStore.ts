@@ -7,6 +7,7 @@ interface AuthState {
   isSigningUp: boolean;
   isLoggingIng: boolean;
   isCheckingAuth: boolean;
+  setUser: (user: IUser) => void;
 }
 
 const defaultState = {

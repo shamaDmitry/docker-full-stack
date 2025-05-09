@@ -1,3 +1,5 @@
+import { IUser } from "../../types";
+
 const apiUrl = `${import.meta.env.VITE_API_URL}`;
 
 export interface registerCredentials {
@@ -22,10 +24,7 @@ export interface RegisterResponse {
 export interface loginResponse {
   message: string;
   token: string;
-  user?: {
-    id: string;
-    email: string;
-  };
+  user: IUser;
 }
 
 export async function registerUser(

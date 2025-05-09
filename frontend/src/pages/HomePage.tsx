@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { NavLink } from "react-router";
 
 const HomePage = () => {
@@ -10,16 +10,22 @@ const HomePage = () => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 2,
+          mb: 3,
         }}
       >
-        <h1>Home Page</h1>
+        <Typography variant="h4">Home Page</Typography>
 
         <Box
           component="nav"
           sx={{ display: "flex", alignItems: "center", gap: 2, m: 2 }}
         >
-          <NavLink to={"login"}>Login</NavLink>
-          <NavLink to={"register"}>Register</NavLink>
+          <NavLink to={"login"}>
+            <Typography variant="body1">Login</Typography>
+          </NavLink>
+
+          <NavLink to={"register"}>
+            <Typography variant="body1">Register</Typography>
+          </NavLink>
         </Box>
       </Box>
 
@@ -34,12 +40,12 @@ const HomePage = () => {
           alignItems: "flex-end",
         }}
       >
-        <div>
+        <Typography>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo et
           inventore dolorum assumenda ad rem earum necessitatibus sint iure,
           nulla minima. Corporis, fuga vitae? Facere officiis quisquam autem
           laudantium asperiores.
-        </div>
+        </Typography>
       </Box>
     </Container>
   );
