@@ -3,7 +3,6 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth";
-import User from "./models/User";
 import { authMiddleware } from "./middlewares/auth.middleware";
 
 dotenv.config();
@@ -15,11 +14,13 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  return res.json({ message: "1message from back-end" });
+  return res.json({
+    message: "message from back-end",
+  });
 });
 
 app.get("/api/test", authMiddleware, async (req, res) => {
-  return res.json({ message: "sercer route" });
+  return res.json({ message: "secret route" });
 });
 
 app.use("/api/auth", authRoutes);

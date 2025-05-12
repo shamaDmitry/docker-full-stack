@@ -10,11 +10,11 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { loginUser } from "../services/api/auth";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuthStore } from "../store/useAuthStore";
 
@@ -55,12 +55,8 @@ export const LoginPage = () => {
       }
     } catch (error) {
       console.log("error", error);
-
-      toast.error(error.message);
     }
   };
-
-  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
 

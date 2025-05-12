@@ -14,11 +14,9 @@ export interface loginCredentials {
 }
 
 export interface RegisterResponse {
+  message: string;
   token: string;
-  user?: {
-    id: string;
-    email: string;
-  };
+  user: IUser;
 }
 
 export interface loginResponse {

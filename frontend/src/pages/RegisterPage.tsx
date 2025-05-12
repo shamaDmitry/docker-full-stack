@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { registerUser } from "@/services/api/auth";
+import { registerUser } from "../services/api/auth";
 
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,8 +48,6 @@ export const RegisterPage = () => {
       }
     } catch (error) {
       console.log(error);
-
-      toast.error(error.message);
     }
   };
 

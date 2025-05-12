@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { RegisterPage } from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import AuthLayout from "./layouts/AuthLayout";
-import { useAuthStore } from "./store/useAuthStore";
 import { MainLayout } from "./layouts/MainLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import DashboardPage from "./pages/protected/DashboardPage";

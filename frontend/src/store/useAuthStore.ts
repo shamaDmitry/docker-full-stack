@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import toast from "react-hot-toast";
 import { IUser } from "../types";
 
 interface AuthState {
@@ -17,7 +16,7 @@ const defaultState = {
   isCheckingAuth: true,
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   ...defaultState,
 
   setUser: (user: IUser) => {
