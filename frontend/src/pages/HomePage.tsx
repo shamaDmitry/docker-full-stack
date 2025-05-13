@@ -2,6 +2,8 @@ import { Box, Container, Typography } from "@mui/material";
 import { NavLink } from "react-router";
 
 const HomePage = () => {
+  const user = localStorage.getItem("user");
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -19,13 +21,23 @@ const HomePage = () => {
           component="nav"
           sx={{ display: "flex", alignItems: "center", gap: 2, m: 2 }}
         >
-          <NavLink to={"login"}>
-            <Typography variant="body1">Login</Typography>
-          </NavLink>
+          {!user && (
+            <>
+              <NavLink to={"login"}>
+                <Typography variant="body1">Login</Typography>
+              </NavLink>
 
-          <NavLink to={"register"}>
-            <Typography variant="body1">Register</Typography>
-          </NavLink>
+              <NavLink to={"register"}>
+                <Typography variant="body1">Register</Typography>
+              </NavLink>
+            </>
+          )}
+
+          {user && (
+            <NavLink to={"/dashboard"}>
+              <Typography variant="body1">Dashboard</Typography>
+            </NavLink>
+          )}
         </Box>
       </Box>
 
