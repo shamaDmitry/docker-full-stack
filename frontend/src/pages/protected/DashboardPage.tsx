@@ -39,8 +39,9 @@ const DashboardPage = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.clear();
     setUser(null);
+
     navigate("/login"); // Redirect to login after logout
   };
 

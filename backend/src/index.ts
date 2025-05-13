@@ -26,7 +26,7 @@ app.get("/api/test", authMiddleware, async (req, res) => {
 app.use("/api/auth", authRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URI || "")
+  .connect(process.env.MONGO_URI as string)
   .then(() => {
     console.log("MongoDB connected");
     app.listen(PORT, () => console.log(`Server running on ${PORT}`));
